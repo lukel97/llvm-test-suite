@@ -4,8 +4,9 @@ set -eu
 CLIENT="$1"
 DEVICE="$2"
 BUILDDIR="$3"
+DEVICE_BUILDDIR="$4"
 
-case $BUILDDIR in
+case $DEVICE_BUILDDIR in
     /*) ;;
     *)
         echo 1>&2 "Builddir path must be absolute!"
@@ -32,5 +33,5 @@ RSYNC_FLAGS+=" --exclude=rules.ninja"
 RSYNC_FLAGS+=" --exclude=CMakeFiles/"
 
 set -x
-$CLIENT $DEVICE mkdir -p "$BUILDDIR"
-eval rsync $RSYNC_FLAGS $BUILDDIR/ $DEVICE:$BUILDDIR/
+$CLIENT $DEVICE mkdir -p "$DEVICE_BUILDDIR"
+eval rsync $RSYNC_FLAGS $BUILDDIR/ $DEVICE:$DEVICE_BUILDDIR/

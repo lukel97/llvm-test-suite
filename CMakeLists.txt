@@ -102,6 +102,7 @@ endif()
 # Remote configuration (will be set in lit.site.cfg)
 set(TEST_SUITE_REMOTE_CLIENT "ssh" CACHE STRING "Remote execution client")
 set(TEST_SUITE_REMOTE_HOST "" CACHE STRING "Remote execution host")
+set(TEST_SUITE_REMOTE_PATH "/var/tmp/llvm-test-suite/" CACHE STRING "Remote execution host")
 mark_as_advanced(TEST_SUITE_REMOTE_CLIENT)
 
 if(TEST_SUITE_REMOTE_HOST)
@@ -110,6 +111,7 @@ if(TEST_SUITE_REMOTE_HOST)
                 ${TEST_SUITE_REMOTE_CLIENT}
                 ${TEST_SUITE_REMOTE_HOST}
                 ${PROJECT_BINARY_DIR}
+                ${TEST_SUITE_REMOTE_PATH}
     USES_TERMINAL
   )
 endif()

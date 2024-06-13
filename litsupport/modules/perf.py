@@ -2,7 +2,7 @@
 perf tool."""
 from litsupport import shellcommand
 from litsupport import testplan
-from litsupport.modules import run_under
+from litsupport.modules import run_under, remote
 
 
 def _mutateCommandLine(context, commandline):
@@ -36,5 +36,19 @@ def mutatePlan(context, plan):
     if context.config.run_under:
         script = testplan.mutateScript(context, script, run_under.mutateCommandLine)
     script = testplan.mutateScript(context, script, _mutateCommandLine)
+
+    if context.config.remote_host:
+        script = testplan.mutateScript(context, script, remote._mutateCommandline)
     plan.profilescript += script
+    if context.config.remote_host:
+        remote_profilefile = context.profilefile.replace(
+            context.config.test_source_root, context.config.remote_path
+        )
+        command = "scp %s:%s %s" % (
+            context.config.remote_host,
+            remote_profilefile,
+            context.profilefile,
+        )
+        plan.profilescript += [command]
+
     plan.metric_collectors.append(lambda context: {"profile": context.profilefile})
