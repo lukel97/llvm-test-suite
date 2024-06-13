@@ -12,9 +12,10 @@ def _wrap_command(context, command):
         context.config.test_source_root, context.config.remote_path
     )
     escaped_command = command.replace("'", "'\\''")
-    return "%s %s '%s'" % (
+    return "%s %s %s '%s'" % (
         context.config.remote_client,
         context.config.remote_host,
+        "-p " + context.config.remote_port if context.config.remote_port else "",
         escaped_command,
     )
 
@@ -52,7 +53,10 @@ def mutatePlan(context, plan):
     # from the device first, add commands for that to the profile script.
     for path in plan.profile_files:
         assert os.path.isabs(path)
-        command = "scp %s:%s %s" % (context.config.remote_host, path, path)
+        command = "scp"
+        if context.config.remote_port:
+            command += " -P " + context.config.remote_port
+        command += " %s:%s %s" % (context.config.remote_host, path, path)
         plan.profilescript.insert(0, command)
 
     assert context.read_result_file is testplan.default_read_result_file

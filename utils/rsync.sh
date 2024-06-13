@@ -2,8 +2,9 @@
 # Sync a build directory to remote device for running.
 set -eu
 DEVICE="$1"
-BUILDDIR="$2"
-DEVICE_BUILDDIR="$3"
+PORT="$2"
+BUILDDIR="$3"
+DEVICE_BUILDDIR="$4"
 
 case $DEVICE_BUILDDIR in
     /*) ;;
@@ -12,6 +13,11 @@ case $DEVICE_BUILDDIR in
         exit 1
         ;;
 esac
+
+SSH_CMD="ssh"
+if [ -n "$PORT" ]; then
+    SSH_CMD+=" -p $PORT"
+fi
 
 RSYNC_FLAGS=""
 RSYNC_FLAGS+=" -a"
@@ -31,5 +37,5 @@ RSYNC_FLAGS+=" --exclude=rules.ninja"
 RSYNC_FLAGS+=" --exclude=CMakeFiles/"
 
 set -x
-ssh $DEVICE mkdir -p "$DEVICE_BUILDDIR"
-eval rsync $RSYNC_FLAGS $BUILDDIR/ $DEVICE:$DEVICE_BUILDDIR/
+$SSH_CMD $DEVICE mkdir -p "$DEVICE_BUILDDIR"
+eval rsync -e \'$SSH_CMD\' $RSYNC_FLAGS $BUILDDIR/ $DEVICE:$DEVICE_BUILDDIR/

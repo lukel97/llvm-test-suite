@@ -44,7 +44,10 @@ def mutatePlan(context, plan):
         remote_profilefile = context.profilefile.replace(
             context.config.test_source_root, context.config.remote_path
         )
-        command = "scp %s:%s %s" % (
+        command = "scp"
+        if context.config.remote_port:
+            command += " -P " + context.config.remote_port
+        command += " %s:%s %s" % (
             context.config.remote_host,
             remote_profilefile,
             context.profilefile,
