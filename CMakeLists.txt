@@ -102,12 +102,13 @@ endif()
 # Remote configuration (will be set in lit.site.cfg)
 set(TEST_SUITE_REMOTE_CLIENT "ssh" CACHE STRING "Remote execution client")
 set(TEST_SUITE_REMOTE_HOST "" CACHE STRING "Remote execution host")
+set(TEST_SUITE_REMOTE_PATH "/var/tmp/llvm-test-suite/" CACHE STRING "Remote execution host")
 mark_as_advanced(TEST_SUITE_REMOTE_CLIENT)
 
 if(TEST_SUITE_REMOTE_HOST)
   add_custom_target(rsync
     COMMAND ${PROJECT_SOURCE_DIR}/utils/rsync.sh
-                ${TEST_SUITE_REMOTE_HOST} ${PROJECT_BINARY_DIR}
+                ${TEST_SUITE_REMOTE_HOST} ${PROJECT_BINARY_DIR} ${TEST_SUITE_REMOTE_PATH}
     USES_TERMINAL
   )
 endif()

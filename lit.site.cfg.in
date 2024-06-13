@@ -7,6 +7,7 @@ config.test_source_root = _directory
 config.test_exec_root = _directory
 config.remote_client = "@TEST_SUITE_REMOTE_CLIENT@"
 config.remote_host = "@TEST_SUITE_REMOTE_HOST@"
+config.remote_path = "@TEST_SUITE_REMOTE_PATH@"
 config.run_under = "@TEST_SUITE_RUN_UNDER@"
 config.user_mode_emulation = @TEST_SUITE_USER_MODE_EMULATION@
 config.strip_tool = "@CMAKE_STRIP@"

@@ -8,6 +8,9 @@ import subprocess
 
 
 def _wrap_command(context, command):
+    command = command.replace(
+        context.config.test_source_root, context.config.remote_path
+    )
     escaped_command = command.replace("'", "'\\''")
     return "%s %s '%s'" % (
         context.config.remote_client,
