@@ -111,7 +111,7 @@ if(TEST_SUITE_REMOTE_HOST)
     COMMAND ${PROJECT_SOURCE_DIR}/utils/rsync.sh
                 ${TEST_SUITE_REMOTE_CLIENT}
                 ${TEST_SUITE_REMOTE_HOST}
-                ${TEST_SUITE_REMOTE_PORT}
+                \"${TEST_SUITE_REMOTE_PORT}\"
                 ${PROJECT_BINARY_DIR}
                 ${TEST_SUITE_REMOTE_PATH}
     USES_TERMINAL
