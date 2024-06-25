@@ -6,7 +6,7 @@
 
 #include "benchmark/benchmark.h"
 
-#define ITERATIONS 10000
+#define ITERATIONS 100
 
 static std::mt19937 rng;
 

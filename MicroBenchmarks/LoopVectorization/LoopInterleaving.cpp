@@ -7,7 +7,7 @@
 
 #include "benchmark/benchmark.h"
 
-#define ELEMENTS 2048
+#define ELEMENTS 128
 #define ALIGNED16 __attribute__((aligned(16)))
 
 static std::mt19937 rng;

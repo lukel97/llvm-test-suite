@@ -5,7 +5,7 @@
 
 #include "benchmark/benchmark.h"
 
-#define N 10000
+#define N 100
 
 // Apply Fn(A[i]) + Fn(B[i]) in loop, with default loop vectorization settings.
 template <typename T> static void run_fn_autovec(T *A, T *B, T *C, T (*Fn)(T)) {

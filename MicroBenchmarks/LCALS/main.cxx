@@ -290,20 +290,16 @@ int main(int argc, char *argv[])
    // caches can be properly flushed between execution of different loops.
    // 
 
+   const benchmark::CPUInfo &info = benchmark::CPUInfo::Get();
    CacheIndex_type cache_size = 0;
-   if ( host_name.find("rzalastor") != std::string::npos ) {
-      cache_size = 12000000;  // 12MB on rzalastor 
-   } else if ( host_name.find("rzmerl") != std::string::npos ) {
-      cache_size = 20000000;  // 20MB on rzmerl  
-   } else if ( host_name.find("dawn") != std::string::npos ) {
-      cache_size = 8000000;   // 8MB on dawn/rzdawndev
-   } else if ( host_name.find("rzuseq") != std::string::npos ||
-               host_name.find("vulcan") != std::string::npos ||
-               host_name.find("sequoia") != std::string::npos ) {
-      cache_size = 32000000;  // 32MB on BG/Q
-   } 
+   unsigned cache_level = 0;
+   for (const benchmark::CPUInfo::CacheInfo &cache_info : info.caches) {
+     if (cache_info.size > cache_size) {
+       cache_size = cache_info.size;
+     }
+   }
 #ifdef TESTSUITE
-   else {
+   if (cache_size == 0) {
       std::cout << "\n WARNING: unknown system cache size. " 
                 << "Timing results may be suspect!!" << std::endl;
    }
